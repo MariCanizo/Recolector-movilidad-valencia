@@ -27,7 +27,7 @@ Cada ejecución crea archivos nuevos (`AAAA/MM/DD/HHMM.csv.gz`) y no reescribe l
    - El repositorio del proyecto sigue siendo privado y enlaza a este desde `data/README.md`.
 2. En el repositorio, ve a **Settings > Actions > General > Workflow permissions** y marca **Read and write permissions**. Así el robot puede guardar los datos. El workflow también declara `permissions: contents: write`.
 3. Si el repositorio es un **fork**, GitHub deja los workflows apagados. Entra en la pestaña **Actions** y pulsa **I understand my workflows, go ahead and enable them**. Sin ese clic el cron no arranca. El horario solo se lee de la rama por defecto (`main`): un cambio en otra rama no se ejecuta solo.
-4. Ve a la pestaña **Actions**, elige "Recoger datos de movilidad" y pulsa **Run workflow** para probar que la recogida y el push funcionan. Si sale en verde, aparecerá la carpeta `data/raw` con los primeros archivos.
+4. Ve a la pestaña **Actions**, elige "Recoger datos de movilidad" y pulsa **Run workflow** con la rama **main**. Los archivos nuevos aparecen en `main`, en `data/raw/<fuente>/AAAA/MM/DD/`. Si el desplegable de rama es otra, el workflow igualmente escribe en `main`.
 5. El cron es `7,17,27,37,47,57 * * * *` (UTC): cada 10 minutos, fuera del minuto 0 y del minuto 30, que es cuando GitHub más retrasa o descarta trabajos. Un disparo descartado no aparece en Actions. La prueba de que va solo es una ejecución con el evento **Scheduled**, sin haber pulsado Run workflow.
 6. Opcional, para el horario de Metrovalencia: regístrate gratis en nap.transportes.gob.es, copia tu clave y guárdala en **Settings > Secrets and variables > Actions > New repository secret** con el nombre `NAP_API_KEY`. Nunca la escribas en el código.
 

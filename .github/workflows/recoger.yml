@@ -21,6 +21,9 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Run workflow deja elegir otra rama. Los datos tienen que verse en main.
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -46,8 +49,9 @@ jobs:
             exit 0
           fi
           git commit -m "Datos $(date -u +'%Y-%m-%d %H:%M') UTC"
+          echo "Guardando datos en main"
           for attempt in 1 2 3 4 5; do
-            if git pull --rebase && git push; then
+            if git pull --rebase origin main && git push origin HEAD:main; then
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
